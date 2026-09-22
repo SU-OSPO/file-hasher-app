@@ -34,6 +34,17 @@ generate_hashed_stem <- function(full_hash, used_names, prefix_len = 8L) {
   }
 }
 
+downloadButton <- function(...) {
+  tag <- shiny::downloadButton(...)
+  # fix downloads with shinylive on Chromium browsers
+  # https://github.com/posit-dev/r-shinylive/issues/74
+  tag$attribs$download <- NULL
+  # drop target = "_blank" so the download doesn't pop open a new browser
+  # https://github.com/rstudio/shiny/issues/2020
+  tag$attribs$target <- NULL
+  tag
+}
+
 # ---- UI -------------------------------------------------------------------
 
 ui <- fluidPage(
